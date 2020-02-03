@@ -12,14 +12,14 @@
 
 function back_ground_process () {
 	# fetch regions of interest from BAM files to speed up the process
-	samtools view -bh /mnt/isilon/maris_lab/target_nbl_ngs/CellLineExome/aligned_2019/${1}.sorted.reheader.bam -L allExons.bed > ROI_bams/${1}_regionofinterest.bam
+	samtools view -bh /path/to/bam/${1}.sorted.reheader.bam -L allExons.bed > ROI_bams/${1}_regionofinterest.bam
 
 	# Calculate average exome coverage
 	samtools depth -b allExons.bed ROI_bams/${1}_regionofinterest.bam | awk '{sum+=$3} END { print "Average = ",sum/NR}' >> ${1}_samtools_exomCoverage.txt
 
 	# output the mean depth of coverage for each region in the BED file
 	bedtools coverage -a allExons.bed -b ROI_bams/${1}_regionofinterest.bam -mean >> ${1}_bedtools_exomCoverage.txt
-	#wk '{sum+=$4} END { print  "'$1' Average = ",sum/NR}' ${1}_bedtools_exomCoverage.txt >> exomeCov_bedtools.txt
+	awk '{sum+=$4} END { print  "'$1' Average = ",sum/NR}' ${1}_bedtools_exomCoverage.txt >> exomeCov_bedtools.txt
 	echo "${1} done!"
 }
 
