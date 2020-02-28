@@ -17,4 +17,4 @@ function echoMe {
     exit 0
 }
 
-echoMe ${input[$SGE_TASK_ID]}
+echoMe ${input[$SGE_TASK_ID-1]} # as $SGE_TASK_ID starts from 1 and bash array index starts from 0
