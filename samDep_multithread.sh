@@ -24,4 +24,4 @@ function back_ground_process () {
 IFS=$'\n' read -d '' -r -a arr < target_bams.txt
 
 # calling function and assigning jobs from arrays to cluster
-back_ground_process ${arr[$SGE_TASK_ID]}
+back_ground_process ${arr[$SGE_TASK_ID-1]}
